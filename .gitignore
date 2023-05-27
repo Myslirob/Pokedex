@@ -1,0 +1,24 @@
+# dependencies
+/*/node_modules
+
+# next.js
+/*/.next/
+/*/.cache/
+/*/out/
+
+# production
+/*/build
+
+# debug
+*/yarn-debug.log*
+*/yarn-error.log*
+
+# local env files
+*/.env*.local
+
+# typescript
+*/*.tsbuildinfo
+*/next-env.d.ts
+
+# IDE
+.idea
