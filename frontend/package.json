@@ -12,7 +12,8 @@
     "check:cs": "eslint . --cache --cache-strategy content --cache-location .cache/.eslintcache --ext .js,.ts,.tsx,.json",
     "check:types": "tsc --incremental --tsBuildInfoFile '.cache/.ts.incremental.cache' --noEmit",
     "format": "eslint . --ext .js,.ts,.tsx,.json --fix",
-    "codegen": "yarn graphql-codegen --config bin/codegen.ts"
+    "codegen": "yarn graphql-codegen --config bin/codegen.ts",
+    "codegen:watch": "yarn graphql-codegen --watch --config bin/codegen.ts"
   },
   "dependencies": {
     "@apollo/client": "^3.7.14",

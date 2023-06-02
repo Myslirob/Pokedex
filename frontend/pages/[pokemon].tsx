@@ -1,15 +1,12 @@
 import { useRouter } from 'next/router';
-import { useMutation, useQuery } from '@apollo/client';
-import { FAVORITE_POKEMON, GET_POKEMON_BY_NAME, UNFAVORITE_POKEMON } from 'src/api/queries';
+import { useQuery } from '@apollo/client';
+import { GET_POKEMON_BY_NAME } from 'src/api/queries';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as fullHeart, faVolumeHigh } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as emptyHeart } from '@fortawesome/free-regular-svg-icons';
-import { useCallback } from 'react';
 import { PokemonEvolution } from 'components/index/pokemonEvolution';
-import { useSnackbar } from 'notistack';
-
-import type { PokemonByNameQuery, PokemonsQuery } from 'src/__generated__/graphql';
+import { useFavoriteMutation } from 'src/api/hooks';
 
 export default function PokemonDetail() {
     const router = useRouter();
@@ -18,52 +15,7 @@ export default function PokemonDetail() {
 
 const Request = ({ pokemonName }: { pokemonName: string }) => {
     const { data } = useQuery(GET_POKEMON_BY_NAME, { variables: { name: pokemonName } });
-    const { enqueueSnackbar } = useSnackbar();
-    const [ favoritePokemonMutation ] = useMutation(FAVORITE_POKEMON, {
-        onCompleted: () => {
-            enqueueSnackbar({
-                message: 'Pokemon was added to favorites',
-                variant: 'success',
-            });
-        },
-    });
-    const [unFavoritePokemon] = useMutation(UNFAVORITE_POKEMON, {
-        onCompleted: () => {
-            enqueueSnackbar({
-                message: 'Pokemon was removed from favorites',
-                variant: 'success',
-            });
-        },
-    });
-    const favoritePokemon = useCallback((pokemon: NonNullable<PokemonByNameQuery['pokemonByName']>['evolutions'][0] | NonNullable<PokemonByNameQuery['pokemonByName']>) => {
-        if (pokemon.isFavorite) {
-            unFavoritePokemon({
-                update: (cache, { data }) => {
-                    cache.modify({
-                        fields: (value: PokemonsQuery['pokemons'], { readField, storeFieldName }) => {
-                            const unFavoritePokemon = data ? data.unFavoritePokemon : undefined;
-                            if (unFavoritePokemon && storeFieldName.includes('"isFavorite":true')) {
-                                return {
-                                    ...value,
-                                    edges: value.edges.filter((pokemon) => readField('id', pokemon) !== unFavoritePokemon.id),
-                                };
-                            }
-                            return value;
-                        },
-                    });
-                },
-                variables: {
-                    id: pokemon.id,
-                },
-            });
-        } else {
-            favoritePokemonMutation({
-                variables: {
-                    id: pokemon.id,
-                },
-            });
-        }
-    }, [favoritePokemonMutation, unFavoritePokemon]);
+    const favoritePokemon = useFavoriteMutation();
     return (
         <Container>
             {data !== undefined && data.pokemonByName && (

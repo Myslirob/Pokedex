@@ -1,6 +1,5 @@
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import { offsetLimitPagination } from '@apollo/client/utilities';
-import { SnackbarProvider } from 'notistack';
 
 import type { ReactNode } from 'react';
 
@@ -32,16 +31,7 @@ const client = new ApolloClient({
 export const ApiProvider = ({ children }: Props) => {
     return (
         <ApolloProvider client={client}>
-            <SnackbarProvider
-                anchorOrigin={{
-                    horizontal: 'center',
-                    vertical: 'top',
-                }}
-                maxSnack={3}
-                preventDuplicate
-            >
-                {children}
-            </SnackbarProvider>
+            {children}
         </ApolloProvider>
     );
 };

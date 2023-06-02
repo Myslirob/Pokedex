@@ -4,7 +4,7 @@ export default function Document() {
     return (
         <Html lang="en">
             <Head>
-                <link href="/favicon.png" rel="icon" />
+                <link href="/favicon.ico" rel="icon" />
                 <link href="/manifest.json" rel="manifest" />
                 <meta content="width=device-width, initial-scale=1" name="viewport" />
             </Head>

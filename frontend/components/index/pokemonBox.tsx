@@ -139,7 +139,6 @@ const ImageWrapper = styled.div<{ $mode: 'list' | 'grid'}>`
   align-items: center;
   justify-content: center;
   height: 100%;
-  min-height: 160px;
   padding: 15px;
   overflow: hidden;
   max-height: 350px;
@@ -159,7 +158,7 @@ const ImageWrapper = styled.div<{ $mode: 'list' | 'grid'}>`
         `;
             default:
                 return css`
-                  //height: 190px;
+                  min-height: 160px;
         `;
         }
     }

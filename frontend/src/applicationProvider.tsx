@@ -1,17 +1,28 @@
 import { ApiProvider } from 'src/api/provider';
 import { AppContextProvider } from 'src/appContext';
+import { SnackbarProvider } from 'notistack';
 
 import type { ReactNode } from 'react';
 
 type Props = {
     children: ReactNode;
 };
+
 export const ApplicationProvider = ({ children }: Props) => {
     return (
-        <ApiProvider>
-            <AppContextProvider>
-                {children}
-            </AppContextProvider>
-        </ApiProvider>
+        <SnackbarProvider
+            anchorOrigin={{
+                horizontal: 'center',
+                vertical: 'top',
+            }}
+            maxSnack={3}
+            preventDuplicate
+        >
+            <ApiProvider>
+                <AppContextProvider>
+                    {children}
+                </AppContextProvider>
+            </ApiProvider>
+        </SnackbarProvider>
     );
 };
