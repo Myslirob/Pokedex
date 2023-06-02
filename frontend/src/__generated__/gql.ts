@@ -13,10 +13,11 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n  query PokemonTypes { \n    pokemonTypes\n  }\n": types.PokemonTypesDocument,
     "\n    mutation FavoritePokemon($id: ID!) {\n        favoritePokemon(id: $id) {\n            id\n            isFavorite\n        }\n    }\n": types.FavoritePokemonDocument,
     "\n    mutation UnFavoritePokemon($id: ID!) {\n        unFavoritePokemon(id: $id) {\n            id\n            isFavorite\n        }\n    }\n": types.UnFavoritePokemonDocument,
-    "\n  query Pokemons($query: PokemonsQueryInput!) { \n    pokemons(query: $query) {\n        edges {\n            name\n            id\n            types\n            isFavorite\n            image\n        }\n    }\n  }\n": types.PokemonsDocument,
+    "\n    query Pokemons($query: PokemonsQueryInput!) {\n        pokemons(query: $query) {\n            edges {\n                name\n                id\n                types\n                isFavorite\n                image\n                maxCP\n                maxHP\n            }\n        }\n    }\n": types.PokemonsDocument,
+    "\n    query PokemonTypes {\n        pokemonTypes\n    }\n": types.PokemonTypesDocument,
+    "\n    query PokemonByName($name: String!) {\n        pokemonByName(name: $name) {\n            name\n            id\n            types\n            isFavorite\n            image\n            weaknesses\n            resistant\n            maxCP\n            maxHP\n            evolutions {\n                name\n                id\n                isFavorite\n                image\n            }\n            height {\n                maximum\n                minimum\n            }\n            weight {\n                maximum\n                minimum\n            }\n            sound\n        }\n    }\n": types.PokemonByNameDocument,
 };
 
 /**
@@ -36,10 +37,6 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query PokemonTypes { \n    pokemonTypes\n  }\n"): (typeof documents)["\n  query PokemonTypes { \n    pokemonTypes\n  }\n"];
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
 export function graphql(source: "\n    mutation FavoritePokemon($id: ID!) {\n        favoritePokemon(id: $id) {\n            id\n            isFavorite\n        }\n    }\n"): (typeof documents)["\n    mutation FavoritePokemon($id: ID!) {\n        favoritePokemon(id: $id) {\n            id\n            isFavorite\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -48,7 +45,15 @@ export function graphql(source: "\n    mutation UnFavoritePokemon($id: ID!) {\n 
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query Pokemons($query: PokemonsQueryInput!) { \n    pokemons(query: $query) {\n        edges {\n            name\n            id\n            types\n            isFavorite\n            image\n        }\n    }\n  }\n"): (typeof documents)["\n  query Pokemons($query: PokemonsQueryInput!) { \n    pokemons(query: $query) {\n        edges {\n            name\n            id\n            types\n            isFavorite\n            image\n        }\n    }\n  }\n"];
+export function graphql(source: "\n    query Pokemons($query: PokemonsQueryInput!) {\n        pokemons(query: $query) {\n            edges {\n                name\n                id\n                types\n                isFavorite\n                image\n                maxCP\n                maxHP\n            }\n        }\n    }\n"): (typeof documents)["\n    query Pokemons($query: PokemonsQueryInput!) {\n        pokemons(query: $query) {\n            edges {\n                name\n                id\n                types\n                isFavorite\n                image\n                maxCP\n                maxHP\n            }\n        }\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    query PokemonTypes {\n        pokemonTypes\n    }\n"): (typeof documents)["\n    query PokemonTypes {\n        pokemonTypes\n    }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    query PokemonByName($name: String!) {\n        pokemonByName(name: $name) {\n            name\n            id\n            types\n            isFavorite\n            image\n            weaknesses\n            resistant\n            maxCP\n            maxHP\n            evolutions {\n                name\n                id\n                isFavorite\n                image\n            }\n            height {\n                maximum\n                minimum\n            }\n            weight {\n                maximum\n                minimum\n            }\n            sound\n        }\n    }\n"): (typeof documents)["\n    query PokemonByName($name: String!) {\n        pokemonByName(name: $name) {\n            name\n            id\n            types\n            isFavorite\n            image\n            weaknesses\n            resistant\n            maxCP\n            maxHP\n            evolutions {\n                name\n                id\n                isFavorite\n                image\n            }\n            height {\n                maximum\n                minimum\n            }\n            weight {\n                maximum\n                minimum\n            }\n            sound\n        }\n    }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

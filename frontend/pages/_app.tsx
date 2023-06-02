@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
 import { ApplicationProvider } from 'src/applicationProvider';
+import Link from 'next/link';
 
 import type { AppProps } from 'next/app';
 
@@ -12,12 +13,14 @@ const Header = styled.header`
   box-shadow: 0px 0px 9px #0000002b;
   padding: 0.5rem;
   display: flex;
-  align-items: center;
   background-color: aliceblue;
-  position: sticky;
-  top: 0;
   transition: top 0.2s ease-in-out;
-  z-index: 9999;
+  & a {
+    color: black;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+  }
 `;
 
 const H1 = styled.h1`
@@ -29,13 +32,17 @@ const H1 = styled.h1`
 export default function App({ Component, pageProps }: AppProps) {
     return (
         <>
-            <Header>
-                <Image alt="pokeball" height={40} src="/pokeball.jpg" width={50} />
-                <H1>Pokedex</H1>
-            </Header>
-            <ApplicationProvider>
-                <Component {...pageProps} />
-            </ApplicationProvider>
+            <div id="root">
+                <Header>
+                    <Link href="/">
+                        <Image alt="pokeball" height={40} src="/pokeball.jpg" width={50} />
+                        <H1>Pokedex</H1>
+                    </Link>
+                </Header>
+                <ApplicationProvider>
+                    <Component {...pageProps} />
+                </ApplicationProvider>
+            </div>
         </>
     );
 }

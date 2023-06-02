@@ -1,28 +1,14 @@
 import Head from 'next/head';
 import { useQuery } from '@apollo/client';
-import { graphql } from 'src/__generated__';
 import { useAppContext } from 'src/appContext';
 import { Filter } from 'components/index/filter';
 import { PokemonList } from 'components/index/pokemonList';
-
-const GET_LOCATIONS = graphql(/* GraphQL */ `
-  query Pokemons($query: PokemonsQueryInput!) { 
-    pokemons(query: $query) {
-        edges {
-            name
-            id
-            types
-            isFavorite
-            image
-        }
-    }
-  }
-`);
+import { GET_POKEMONS } from 'src/api/queries';
 
 export default function Home() {
     const { filter } = useAppContext();
     const { data, fetchMore } = useQuery(
-        GET_LOCATIONS,
+        GET_POKEMONS,
         {
             fetchPolicy: 'cache-and-network',
             variables: {

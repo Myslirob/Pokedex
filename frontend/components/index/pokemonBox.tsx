@@ -1,9 +1,14 @@
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart as fullHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart as fullHeart, faMaximize } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as emptyHeart } from '@fortawesome/free-regular-svg-icons';
 import Link from 'next/link';
 import { useAppContext } from 'src/appContext';
+import { useRef } from 'react';
+import { useMaximalize } from 'src/hook';
+
+import { Backdrop } from '../../elements/backdrop';
+import { PokemonCard } from '../../elements/card/pokemonCard';
 
 import type { PokemonsQuery } from 'src/__generated__/graphql';
 
@@ -14,32 +19,77 @@ interface Props {
 
 export const PokemonBox = ({ pokemon, favoritePokemon }: Props) => {
     const { view } = useAppContext();
+    const boxRef = useRef<any>(null);
+    const {
+        maximalize,
+        minimalize,
+        isHiding,
+        coordination,
+    } = useMaximalize({ ref: boxRef });
     return (
-        <PaperWrapper $mode={view}>
+        <CardWrapper $mode={view} ref={boxRef}>
+            {coordination && (
+                <Backdrop onClick={minimalize}
+                    show={!isHiding}
+                />
+            )}
             <Link href={`/${pokemon.name}`}>
-                <Paper $mode={view} key={pokemon.id}>
+                <PokemonCard $coordination={coordination} $isHiding={isHiding} $mode={view}>
                     <ImageWrapper $mode={view}>
+                        {view === 'grid' && coordination === undefined && (
+                            <MaximalizeButton onClick={(e) => {
+                                e.preventDefault();
+                                maximalize();
+                            }}
+                            >
+                                <FontAwesomeIcon icon={faMaximize} size="lg" />
+                            </MaximalizeButton>
+                        )}
                         <img alt={pokemon.name} src={pokemon.image} />
                     </ImageWrapper>
+                    {!isHiding && (
+                        <AdditionalInfo>
+                            <DescriptionWrapper>
+                                <Line color="red" />
+                                <span>HP: {pokemon.maxHP}</span>
+                            </DescriptionWrapper>
+                            <DescriptionWrapper>
+                                <Line color="blue" />
+                                <span>CP: {pokemon.maxCP}</span>
+                            </DescriptionWrapper>
+                        </AdditionalInfo>
+                    )}
                     <DescriptionWrapper>
-                        <TitleWrapper><b>{pokemon.name}</b><br />{pokemon.types.join(', ')} </TitleWrapper>
+                        <TitleWrapper>
+                            <b>{pokemon.name}</b><br />
+                            {pokemon.types.join(', ')}
+                        </TitleWrapper>
                         <IconButton><FontAwesomeIcon color="red" icon={pokemon.isFavorite ? fullHeart : emptyHeart} onClick={(e) => {
                             e.preventDefault();
                             favoritePokemon(pokemon);
                         }} size="xl"
                         /></IconButton>
                     </DescriptionWrapper>
-                </Paper>
+                </PokemonCard>
             </Link>
-        </PaperWrapper>
+        </CardWrapper>
     );
 };
 
-const PaperWrapper = styled.div<{ $mode: 'list' | 'grid'}>`
+const Line = styled.div<{ color: string }>`
+  background-color: ${({ color }) => color};
+  border-radius: 10px;
+  flex-grow: 1;
+  height: 10px;
+  margin-right: 10px;
+`;
+
+const CardWrapper = styled.div<{ $mode: 'list' | 'grid'}>`
   ${(props) => {
         switch (props.$mode) {
             case 'list': return css`
               width: 100%;
+              height: 60px;
         `;
             default: return css`
               height: 250px;
@@ -49,42 +99,39 @@ const PaperWrapper = styled.div<{ $mode: 'list' | 'grid'}>`
     }
 }
   position: relative;
-
   & a {
     color: black;
     text-decoration: none;
   }
 `;
 
-const Paper = styled.div<{ $mode: 'list' | 'grid'}>`
-  display: flex;
-  justify-content: stretch;
-  align-items: center;
-  border: 1px solid #96eca4;
-  border-radius: 5px;
-  box-shadow: 0 0 3px #96eca4;
-  height: 100%;
-  width: 100%;
-  ${(props) => {
-        switch (props.$mode) {
-            case 'list': return css`
-              flex-direction: row;
-              &:hover {
-                transform: scale(1.007);
-              }
-          `;
-            default: return css`
-              flex-direction: column;
-              &:hover {
-                & img {
-                  transform: scale(1.08);
-                }
-              }
-          `;
-        }
-    }
-}
-  transition: all 2s ease;
+const Opacity = keyframes`
+  0% {
+    opacity: 0;
+    display: none;
+  }
+  50% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 1;
+    display: block;
+  }
+`;
+
+const MaximalizeButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  &:hover {
+    box-shadow: 0px 0px 2px 0px #eee;
+    opacity: 0.5;
+  }
+  position: absolute;
+  top: 10px;
+  right: 5px;
+  opacity: 0.3;
+  z-index: 2;
 `;
 
 const ImageWrapper = styled.div<{ $mode: 'list' | 'grid'}>`
@@ -92,8 +139,11 @@ const ImageWrapper = styled.div<{ $mode: 'list' | 'grid'}>`
   align-items: center;
   justify-content: center;
   height: 100%;
-  padding: 5px;
+  min-height: 160px;
+  padding: 15px;
   overflow: hidden;
+  max-height: 350px;
+  max-width: 100%;
   & img {
     transition: transform 0.5s;
     max-height: 100%;
@@ -103,18 +153,14 @@ const ImageWrapper = styled.div<{ $mode: 'list' | 'grid'}>`
         switch (props.$mode) {
             case 'list':
                 return css`
-                    flex-direction: row;
-                  height: 50px;
-                  width: 60px;
-                `;
+          flex-direction: row;
+          height: 50px;
+          width: 60px;
+        `;
             default:
                 return css`
-                  width: 150px;
-                    & img {
-                      max-width: 150px;
-                      max-height: 150px;
-                    }
-                `;
+                  //height: 190px;
+        `;
         }
     }
 }
@@ -127,6 +173,15 @@ const DescriptionWrapper = styled.div`
   background-color: #d5e6d196;
   padding: 10px;
   box-sizing: border-box;
+  align-items: center;
+`;
+
+const AdditionalInfo = styled.div`
+  width: 100%;
+  box-sizing: border-box;
+  flex-grow: 1;
+  opacity: 0;
+  animation: ${Opacity} 1s 0.2s ease-in forwards;
 `;
 
 const TitleWrapper = styled.span`

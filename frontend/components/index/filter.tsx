@@ -3,15 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faGrip } from '@fortawesome/free-solid-svg-icons';
 import { useQuery } from '@apollo/client';
 import { useAppContext } from 'src/appContext';
-import { graphql } from 'src/__generated__';
 import { useDebounce } from 'usehooks-ts';
 import { useEffect, useState } from 'react';
-
-const GET_POKEMON_TYPES = graphql(/* GraphQL */ `
-  query PokemonTypes { 
-    pokemonTypes
-  }
-`);
+import { GET_POKEMON_TYPES } from 'src/api/queries';
 
 export const Filter = () => {
     const { setFilter, filter, setView } = useAppContext();
@@ -48,7 +42,8 @@ const Search = () => {
     const search = useDebounce<string>(value, 500);
     useEffect(() => {
         setFilter({ ...filter, name: search });
-    }, [filter, search, setFilter]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [search, setFilter]);
 
     return (
         <SearchInput onChange={(e) => setValue(e.target.value)} type="text" />

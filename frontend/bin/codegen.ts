@@ -2,7 +2,7 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
     debug: true,
-    documents: ['**/*.tsx'],
+    documents: ['./src/api/queries.ts'],
     generates: {
         './src/__generated__/': {
             plugins: [],

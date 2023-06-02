@@ -8,7 +8,7 @@ export default function Document() {
                 <link href="/manifest.json" rel="manifest" />
                 <meta content="width=device-width, initial-scale=1" name="viewport" />
             </Head>
-            <body style={{ margin: 0 }}>
+            <body style={{ margin: 0, overflowY: 'scroll' }}>
                 <Main />
                 <NextScript />
             </body>
