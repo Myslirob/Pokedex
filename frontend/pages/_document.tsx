@@ -4,9 +4,8 @@ export default function Document() {
     return (
         <Html lang="en">
             <Head>
-                <link href="/favicon.ico" rel="icon" />
+                <link href="/icon-48x48.png" rel="shortcut icon" />
                 <link href="/manifest.json" rel="manifest" />
-                <meta content="width=device-width, initial-scale=1" name="viewport" />
             </Head>
             <body style={{ margin: 0, overflowY: 'scroll' }}>
                 <Main />

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Image from 'next/image';
 import { ApplicationProvider } from 'src/applicationProvider';
 import Link from 'next/link';
+import Head from 'next/head';
 
 import type { AppProps } from 'next/app';
 
@@ -33,6 +34,9 @@ export default function App({ Component, pageProps }: AppProps) {
     return (
         <>
             <div id="root">
+                <Head>
+                    <meta content="width=device-width, initial-scale=1" name="viewport" />
+                </Head>
                 <Header>
                     <Link href="/">
                         <Image alt="pokeball" height={40} src="/pokeball.jpg" width={50} />
