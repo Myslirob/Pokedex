@@ -1,5 +1,7 @@
 # Pokedex
 
+In root directory is video with webpage on mobile
+
 ## Available Scripts
 
 In the project directory, you can run:
