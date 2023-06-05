@@ -1,6 +1,6 @@
 # Pokedex
 
-Sample video: https://www.youtube.com/watch?v=Hc79sDi3f0U
+Sample video: https://www.youtube.com/watch?v=Xq7dBypD6hU
 
 ## Available Scripts
 
