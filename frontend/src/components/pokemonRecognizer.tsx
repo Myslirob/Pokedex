@@ -3,24 +3,23 @@ import { useCallback, useRef, useState } from 'react';
 import { useMediaQuery } from 'usehooks-ts';
 import styled from 'styled-components';
 import { useQuery } from '@apollo/client';
-import { GET_POKEMON_BY_NAME } from 'src/api/queries';
+import { GET_POKEMON_BY_NAME } from 'src/api/query';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCameraRotate, faHeart as fullHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as emptyHeart } from '@fortawesome/free-regular-svg-icons';
-import { useFavoriteMutation } from 'src/api/hook';
-import { usePokemonRecognizer } from 'src/pokemonRecognizer/hook';
-import { useDisableScroll } from 'src/hook/disableScroll';
+import { useFavoriteMutation } from 'src/hooks/api';
+import { usePokemonRecognizer } from 'src/hooks/pokemonRecognizer';
+import { useDisableScroll } from 'src/hooks/disableScroll';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { isMobile } from 'src/helper';
-
-import { Backdrop } from '../../elements/backdrop';
-import { IconButton } from '../../elements/input/button/iconButton';
-import { Button } from '../../elements/input/button/button';
-import { DescriptionWrapper } from '../../elements/card/descriptionWrapper';
-import { Title } from '../../elements/card/title';
-import { ImageWrapper, RelativeImageWrapper } from '../../elements/card/imageWrapper';
-import { Modal } from '../../elements/modal';
+import { isMobile } from 'src/helpers/helper';
+import { Backdrop } from 'src/elements/backdrop';
+import { IconButton } from 'src/elements/input/button/iconButton';
+import { Button } from 'src/elements/input/button/button';
+import { DescriptionWrapper } from 'src/elements/card/descriptionWrapper';
+import { Title } from 'src/elements/card/title';
+import { ImageWrapper, RelativeImageWrapper } from 'src/elements/card/imageWrapper';
+import { Modal } from 'src/elements/modal';
 
 export const useImageRecognizer = () => {
     const [ isShown, setShow ] = useState(false);

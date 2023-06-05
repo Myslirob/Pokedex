@@ -38,5 +38,8 @@ const withPWA = require('next-pwa')({
 });
 
 module.exports = withPWA({
-    // reactStrictMode: true,
+    compiler: {
+        styledComponents: true,
+    },
+    reactStrictMode: true,
 });

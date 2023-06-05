@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
-import { ApplicationProvider } from 'src/applicationProvider';
+import { AppProvider } from 'src/providers/app';
 import Link from 'next/link';
 import Head from 'next/head';
 
@@ -43,9 +43,9 @@ export default function App({ Component, pageProps }: AppProps) {
                         <H1>Pokedex</H1>
                     </Link>
                 </Header>
-                <ApplicationProvider>
+                <AppProvider>
                     <Component {...pageProps} />
-                </ApplicationProvider>
+                </AppProvider>
             </div>
         </>
     );

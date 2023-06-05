@@ -1,10 +1,10 @@
 import { useQuery } from '@apollo/client';
-import { useAppContext } from 'src/appContext';
-import { Filter } from 'components/index/filter';
-import { PokemonList } from 'components/index/pokemonList';
-import { GET_POKEMONS } from 'src/api/queries';
+import { useAppContext } from 'src/providers/appContext';
+import { GET_POKEMONS } from 'src/api/query';
 import React from 'react';
 import { useDocumentTitle } from 'usehooks-ts';
+import { PokemonList } from 'src/components/pokemonList';
+import { Filter } from 'src/components/filter';
 
 export default function Home() {
     useDocumentTitle('Pokedex');

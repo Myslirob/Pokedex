@@ -1,6 +1,6 @@
 import * as tf from '@tensorflow/tfjs';
 import pokemons from 'src/assets/pokemons.json';
-import { usePokemonRecognizerContext } from 'src/pokemonRecognizer/provider';
+import { usePokemonRecognizerContext } from 'src/providers/pokemonRecognizer';
 import { createCanvas, loadImage } from 'canvas';
 
 async function loadImageAndConvertToTensor(rawImage: string | Buffer) {
@@ -24,13 +24,13 @@ export const usePokemonRecognizer = () => {
             const imageTensored = await loadImageAndConvertToTensor(image);
             const imgArray = tf.expandDims(imageTensored);
             const predictions = model.predict(imgArray);
-            //@ts-expect-error
+            // @ts-expect-error Model always return entity Tensor
             const score = tf.softmax(predictions.arraySync()[0]);
             const index = tf.argMax(score).dataSync()[0];
             const pokemon = pokemons[index];
-            return pokemon ?? 'Unknown';
+            return pokemon;
         }
-        return 'Unknown';
+        throw new Error('Model is not initialized');
     };
 
     return {

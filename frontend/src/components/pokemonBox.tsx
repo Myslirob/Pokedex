@@ -3,16 +3,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as fullHeart, faMaximize } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as emptyHeart } from '@fortawesome/free-regular-svg-icons';
 import Link from 'next/link';
-import { useAppContext } from 'src/appContext';
+import { useAppContext } from 'src/providers/appContext';
 import { useRef } from 'react';
-import { useMaximalize } from 'src/hook/maximalize';
-
-import { Backdrop } from '../../elements/backdrop';
-import { MaximalizablePokemonCard } from '../../elements/card/pokemonCard';
-import { IconButton } from '../../elements/input/button/iconButton';
-import { ImageWrapper } from '../../elements/card/imageWrapper';
-import { DescriptionWrapper } from '../../elements/card/descriptionWrapper';
-import { Title } from '../../elements/card/title';
+import { useMaximalize } from 'src/hooks/maximalize';
+import { Backdrop } from 'src/elements/backdrop';
+import { MaximalizablePokemonCard } from 'src/elements/card/pokemonCard';
+import { IconButton } from 'src/elements/input/button/iconButton';
+import { ImageWrapper } from 'src/elements/card/imageWrapper';
+import { DescriptionWrapper } from 'src/elements/card/descriptionWrapper';
+import { Title } from 'src/elements/card/title';
 
 import type { PokemonsQuery } from 'src/__generated__/graphql';
 

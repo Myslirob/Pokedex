@@ -1,19 +1,18 @@
 import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/client';
-import { GET_POKEMON_BY_NAME } from 'src/api/queries';
+import { GET_POKEMON_BY_NAME } from 'src/api/query';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as fullHeart, faVolumeHigh } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as emptyHeart } from '@fortawesome/free-regular-svg-icons';
-import { PokemonEvolution } from 'components/pokemon/pokemonEvolution';
-import { useFavoriteMutation } from 'src/api/hook';
+import { useFavoriteMutation } from 'src/hooks/api';
 import React from 'react';
 import { useDocumentTitle } from 'usehooks-ts';
-
-import { IconButton } from '../elements/input/button/iconButton';
-import { RelativeImageWrapper } from '../elements/card/imageWrapper';
-import { Title } from '../elements/card/title';
-import { DescriptionWrapper } from '../elements/card/descriptionWrapper';
+import { PokemonEvolution } from 'src/components/pokemonEvolution';
+import { IconButton } from 'src/elements/input/button/iconButton';
+import { RelativeImageWrapper } from 'src/elements/card/imageWrapper';
+import { Title } from 'src/elements/card/title';
+import { DescriptionWrapper } from 'src/elements/card/descriptionWrapper';
 
 export default function PokemonDetail() {
     const router = useRouter();
@@ -66,15 +65,11 @@ const Request = ({ pokemonName }: { pokemonName: string }) => {
                             <EvolutionContainer>
                                 {
                                     data.pokemonByName.evolutions.map((pokemon) => (
-                                        <>
-                                            {pokemon && (
-                                                <PokemonEvolution
-                                                    favoritePokemon={favoritePokemon}
-                                                    key={pokemon.id}
-                                                    pokemon={pokemon}
-                                                />
-                                            )}
-                                        </>
+                                        <PokemonEvolution
+                                            favoritePokemon={favoritePokemon}
+                                            key={pokemon.id}
+                                            pokemon={pokemon}
+                                        />
                                     ))
                                 }
                             </EvolutionContainer>

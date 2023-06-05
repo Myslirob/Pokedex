@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDebounce } from 'usehooks-ts';
-import { useDisableScroll } from 'src/hook/disableScroll';
+import { useDisableScroll } from 'src/hooks/disableScroll';
 
 import type { MutableRefObject } from 'react';
 

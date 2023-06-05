@@ -2,16 +2,16 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faCamera, faGrip } from '@fortawesome/free-solid-svg-icons';
 import { useQuery } from '@apollo/client';
-import { useAppContext } from 'src/appContext';
+import { useAppContext } from 'src/providers/appContext';
 import { useDebounce } from 'usehooks-ts';
 import { useEffect, useState } from 'react';
-import { GET_POKEMON_TYPES } from 'src/api/queries';
-import { useImageRecognizer } from 'components/index/pokemonRecognizer';
+import { GET_POKEMON_TYPES } from 'src/api/query';
+import { GroupButton } from 'src/elements/input/button/groupButton';
+import { IconButton } from 'src/elements/input/button/iconButton';
+import { Search } from 'src/elements/input/search';
+import { Select } from 'src/elements/input/select';
 
-import { GroupButton } from '../../elements/input/button/groupButton';
-import { IconButton } from '../../elements/input/button/iconButton';
-import { Search } from '../../elements/input/search';
-import { Select } from '../../elements/input/select';
+import { useImageRecognizer } from './pokemonRecognizer';
 
 export const Filter = () => {
     const { setFilter, filter, setView } = useAppContext();

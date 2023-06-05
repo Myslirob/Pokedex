@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client';
-import { FAVORITE_POKEMON, UNFAVORITE_POKEMON } from 'src/api/queries';
+import { FAVORITE_POKEMON, UNFAVORITE_POKEMON } from 'src/api/query';
 import { useCallback } from 'react';
 import { useSnackbar } from 'notistack';
 

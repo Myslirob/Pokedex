@@ -1,7 +1,7 @@
-import { ApiProvider } from 'src/api/provider';
-import { AppContextProvider } from 'src/appContext';
+import { ApiProvider } from 'src/providers/api';
+import { AppContextProvider } from 'src/providers/appContext';
 import { SnackbarProvider } from 'notistack';
-import { PokemonRecognizerProvider } from 'src/pokemonRecognizer/provider';
+import { PokemonRecognizerProvider } from 'src/providers/pokemonRecognizer';
 
 import type { ReactNode } from 'react';
 
@@ -9,7 +9,7 @@ type Props = {
     children: ReactNode;
 };
 
-export const ApplicationProvider = ({ children }: Props) => {
+export const AppProvider = ({ children }: Props) => {
     return (
         <SnackbarProvider
             anchorOrigin={{

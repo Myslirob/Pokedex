@@ -2,12 +2,11 @@ import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as fullHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as emptyHeart } from '@fortawesome/free-regular-svg-icons';
-
-import { PokemonCard } from '../../elements/card/pokemonCard';
-import { IconButton } from '../../elements/input/button/iconButton';
-import { ImageWrapper } from '../../elements/card/imageWrapper';
-import { DescriptionWrapper } from '../../elements/card/descriptionWrapper';
-import { Title } from '../../elements/card/title';
+import { PokemonCard } from 'src/elements/card/pokemonCard';
+import { IconButton } from 'src/elements/input/button/iconButton';
+import { ImageWrapper } from 'src/elements/card/imageWrapper';
+import { DescriptionWrapper } from 'src/elements/card/descriptionWrapper';
+import { Title } from 'src/elements/card/title';
 
 import type { PokemonByNameQuery } from 'src/__generated__/graphql';
 

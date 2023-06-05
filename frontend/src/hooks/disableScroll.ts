@@ -1,23 +1,19 @@
 import { useEffect } from 'react';
-import { assertNotNull } from 'src/helper';
 
 export const useDisableScroll = (scrollable: boolean) => {
     useEffect(() => {
         const root = document.getElementById('root');
-        assertNotNull(root);
+        if (root === null) return;
         if (scrollable) {
             document.body.style.overflow = 'auto';
-            // @ts-expect-error
-            root.style['overflow-y'] = 'auto';
+            root.style.overflowY = 'auto';
             return;
         }
-        // @ts-expect-error
-        root.style['overflow-y'] = 'scroll';
+        root.style.overflowY = 'scroll';
         document.body.style.overflow = 'hidden';
         return () => {
             document.body.style.overflow = 'auto';
-            // @ts-expect-error
-            root.style['overflow-y'] = 'auto';
+            root.style.overflowY = 'auto';
         };
     }, [scrollable]);
 };
