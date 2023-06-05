@@ -1,6 +1,7 @@
 import { ApiProvider } from 'src/api/provider';
 import { AppContextProvider } from 'src/appContext';
 import { SnackbarProvider } from 'notistack';
+import { PokemonRecognizerProvider } from 'src/pokemonRecognizer/provider';
 
 import type { ReactNode } from 'react';
 
@@ -20,7 +21,9 @@ export const ApplicationProvider = ({ children }: Props) => {
         >
             <ApiProvider>
                 <AppContextProvider>
-                    {children}
+                    <PokemonRecognizerProvider>
+                        {children}
+                    </PokemonRecognizerProvider>
                 </AppContextProvider>
             </ApiProvider>
         </SnackbarProvider>

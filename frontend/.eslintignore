@@ -4,3 +4,4 @@
 /.cache/
 *.json
 *.log
+/public/*.js

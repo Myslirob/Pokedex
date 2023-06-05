@@ -6,6 +6,7 @@ import type { ReactNode } from 'react';
 type Props = {
     children: ReactNode;
 };
+
 const client = new ApolloClient({
     cache: new InMemoryCache({
         typePolicies: {
@@ -25,7 +26,7 @@ const client = new ApolloClient({
             },
         },
     }),
-    uri: 'http://localhost:4000/graphql',
+    uri: 'http://192.168.0.46:4000/graphql',
 });
 
 export const ApiProvider = ({ children }: Props) => {

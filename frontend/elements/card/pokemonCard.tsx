@@ -23,7 +23,7 @@ const MoveFrame2 = keyframes`
   }
 `;
 
-export const PokemonCard = styled.div<{ $isHiding?: boolean; $coordination?: { x: number; y: number }; $mode: 'list' | 'grid'}>`
+export const PokemonCard = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -32,31 +32,34 @@ export const PokemonCard = styled.div<{ $isHiding?: boolean; $coordination?: { x
   box-shadow: 0 0 3px #96eca4;
   height: 100%;
   width: 100%;
+  flex-direction: column;
+  background-color: white;
+  position: relative;
+`;
+
+export const MaximalizablePokemonCard = styled(PokemonCard)<{ $isHiding?: boolean; $coordination?: { x: number; y: number }; $mode: 'list' | 'grid'}>`
   ${(props) => {
         switch (props.$mode) {
             case 'list': return css`
               width: 100%;
               height: 60px;
-        flex-direction: row;
-        &:hover {
-          transform: scale(1.007);
-        }
-      `;
+              flex-direction: row;
+              &:hover {
+                transform: scale(1.007);
+              }
+            `;
             default: return css`
               height: 250px;
               width: 200px;
-        flex-direction: column;
-        &:hover {
-          & img {
-            transform: scale(${props.$coordination === undefined ? 1.08 : 1});
-          }
-        }
-      `;
+              &:hover {
+                & img {
+                  transform: scale(${props.$coordination === undefined ? 1.08 : 1});
+                }
+              }
+            `;
         }
     }
 }
-  position: relative;
-  background-color: white;
   ${(props) => {
         if (props.$coordination !== undefined) {
             if (props.$isHiding) {

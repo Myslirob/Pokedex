@@ -2,7 +2,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import styled from 'styled-components';
 import { useAppContext } from 'src/appContext';
 import { PokemonBox } from 'components/index/pokemonBox';
-import { useFavoriteMutation } from 'src/api/hooks';
+import { useFavoriteMutation } from 'src/api/hook';
 
 import type { PokemonsQuery } from 'src/__generated__/graphql';
 

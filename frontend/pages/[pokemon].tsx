@@ -5,8 +5,15 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as fullHeart, faVolumeHigh } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as emptyHeart } from '@fortawesome/free-regular-svg-icons';
-import { PokemonEvolution } from 'components/index/pokemonEvolution';
-import { useFavoriteMutation } from 'src/api/hooks';
+import { PokemonEvolution } from 'components/pokemon/pokemonEvolution';
+import { useFavoriteMutation } from 'src/api/hook';
+import React from 'react';
+import { useDocumentTitle } from 'usehooks-ts';
+
+import { IconButton } from '../elements/input/button/iconButton';
+import { RelativeImageWrapper } from '../elements/card/imageWrapper';
+import { Title } from '../elements/card/title';
+import { DescriptionWrapper } from '../elements/card/descriptionWrapper';
 
 export default function PokemonDetail() {
     const router = useRouter();
@@ -14,6 +21,7 @@ export default function PokemonDetail() {
 }
 
 const Request = ({ pokemonName }: { pokemonName: string }) => {
+    useDocumentTitle(`Pokedex - ${pokemonName}`);
     const { data } = useQuery(GET_POKEMON_BY_NAME, { variables: { name: pokemonName } });
     const favoritePokemon = useFavoriteMutation();
     return (
@@ -21,10 +29,10 @@ const Request = ({ pokemonName }: { pokemonName: string }) => {
             {data !== undefined && data.pokemonByName && (
                 <>
                     <Paper>
-                        <ImageWrapper>
+                        <RelativeImageWrapper style={{ height: '350px' }}>
                             <PlayButton sound={data.pokemonByName.sound} />
                             <img alt={data.pokemonByName.name} src={data.pokemonByName.image} />
-                        </ImageWrapper>
+                        </RelativeImageWrapper>
                         <Content>
                             <Item>CP:</Item>
                             <Item>{data.pokemonByName.maxCP}</Item>
@@ -40,10 +48,10 @@ const Request = ({ pokemonName }: { pokemonName: string }) => {
                             <Item>{data.pokemonByName.weight.minimum} - {data.pokemonByName.weight.maximum}</Item>
                         </Content>
                         <DescriptionWrapper>
-                            <TitleWrapper>
+                            <Title>
                                 <b>{data.pokemonByName.name}</b><br />
                                 {data.pokemonByName.types.join(', ')}
-                            </TitleWrapper>
+                            </Title>
                             <IconButton><FontAwesomeIcon color="red" icon={data.pokemonByName.isFavorite ? fullHeart : emptyHeart} onClick={(e) => {
                                 e.preventDefault();
                                 // @ts-expect-error
@@ -55,7 +63,7 @@ const Request = ({ pokemonName }: { pokemonName: string }) => {
                     {data.pokemonByName.evolutions.length > 0 && (
                         <>
                             <h3>Evolutions:</h3>
-                            <Container2>
+                            <EvolutionContainer>
                                 {
                                     data.pokemonByName.evolutions.map((pokemon) => (
                                         <>
@@ -69,7 +77,7 @@ const Request = ({ pokemonName }: { pokemonName: string }) => {
                                         </>
                                     ))
                                 }
-                            </Container2>
+                            </EvolutionContainer>
                         </>
                     )}
                 </>
@@ -91,7 +99,7 @@ const PlayButtonWrapper = styled.div`
   bottom: 5px;
 `;
 
-const Container2 = styled.div`
+const EvolutionContainer = styled.div`
   gap: 15px;
   display: grid;
   grid-template-columns: repeat(auto-fill, 200px);
@@ -99,6 +107,9 @@ const Container2 = styled.div`
   & a {
     color: black;
     text-decoration: none;
+  }
+  @media (max-width: 480px) {
+    justify-content: center;
   }
 `;
 
@@ -113,40 +124,6 @@ const Content = styled.div`
 `;
 
 const Item = styled.div`
-`;
-
-const ImageWrapper = styled.div`
-    position: relative;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 10px;
-  box-sizing: border-box;
-`;
-
-const IconButton = styled.button`
-  background: none;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  &:hover {
-    box-shadow: 0 0 2px 0 #eee;
-  }
-`;
-
-const TitleWrapper = styled.span`
-  color: black;
-  text-decoration: none;
-`;
-
-const DescriptionWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  background-color: #d5e6d196;
-  padding: 10px;
-  box-sizing: border-box;
-  align-items: center;
 `;
 
 const Container = styled.div`

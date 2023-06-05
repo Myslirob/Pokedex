@@ -5,10 +5,14 @@ import { faHeart as emptyHeart } from '@fortawesome/free-regular-svg-icons';
 import Link from 'next/link';
 import { useAppContext } from 'src/appContext';
 import { useRef } from 'react';
-import { useMaximalize } from 'src/hook';
+import { useMaximalize } from 'src/hook/maximalize';
 
 import { Backdrop } from '../../elements/backdrop';
-import { PokemonCard } from '../../elements/card/pokemonCard';
+import { MaximalizablePokemonCard } from '../../elements/card/pokemonCard';
+import { IconButton } from '../../elements/input/button/iconButton';
+import { ImageWrapper } from '../../elements/card/imageWrapper';
+import { DescriptionWrapper } from '../../elements/card/descriptionWrapper';
+import { Title } from '../../elements/card/title';
 
 import type { PokemonsQuery } from 'src/__generated__/graphql';
 
@@ -34,7 +38,7 @@ export const PokemonBox = ({ pokemon, favoritePokemon }: Props) => {
                 />
             )}
             <Link href={`/${pokemon.name}`}>
-                <PokemonCard $coordination={coordination} $isHiding={isHiding} $mode={view}>
+                <MaximalizablePokemonCard $coordination={coordination} $isHiding={isHiding} $mode={view}>
                     <ImageWrapper $mode={view}>
                         {view === 'grid' && coordination === undefined && (
                             <MaximalizeButton onClick={(e) => {
@@ -60,17 +64,17 @@ export const PokemonBox = ({ pokemon, favoritePokemon }: Props) => {
                         </AdditionalInfo>
                     )}
                     <DescriptionWrapper>
-                        <TitleWrapper>
+                        <Title>
                             <b>{pokemon.name}</b><br />
                             {pokemon.types.join(', ')}
-                        </TitleWrapper>
+                        </Title>
                         <IconButton><FontAwesomeIcon color="red" icon={pokemon.isFavorite ? fullHeart : emptyHeart} onClick={(e) => {
                             e.preventDefault();
                             favoritePokemon(pokemon);
                         }} size="xl"
                         /></IconButton>
                     </DescriptionWrapper>
-                </PokemonCard>
+                </MaximalizablePokemonCard>
             </Link>
         </CardWrapper>
     );
@@ -105,20 +109,6 @@ const CardWrapper = styled.div<{ $mode: 'list' | 'grid'}>`
   }
 `;
 
-const Opacity = keyframes`
-  0% {
-    opacity: 0;
-    display: none;
-  }
-  50% {
-    opacity: 0.2;
-  }
-  100% {
-    opacity: 1;
-    display: block;
-  }
-`;
-
 const MaximalizeButton = styled.button`
   background: none;
   border: none;
@@ -134,45 +124,18 @@ const MaximalizeButton = styled.button`
   z-index: 2;
 `;
 
-const ImageWrapper = styled.div<{ $mode: 'list' | 'grid'}>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  padding: 15px;
-  overflow: hidden;
-  max-height: 350px;
-  max-width: 100%;
-  & img {
-    transition: transform 0.5s;
-    max-height: 100%;
-    max-width: 100%;
+const Opacity = keyframes`
+  0% {
+    opacity: 0;
+    display: none;
   }
-  ${(props) => {
-        switch (props.$mode) {
-            case 'list':
-                return css`
-          flex-direction: row;
-          height: 50px;
-          width: 60px;
-        `;
-            default:
-                return css`
-                  min-height: 160px;
-        `;
-        }
-    }
-}
-`;
-
-const DescriptionWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  background-color: #d5e6d196;
-  padding: 10px;
-  box-sizing: border-box;
-  align-items: center;
+  50% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 1;
+    display: block;
+  }
 `;
 
 const AdditionalInfo = styled.div`
@@ -183,17 +146,3 @@ const AdditionalInfo = styled.div`
   animation: ${Opacity} 1s 0.2s ease-in forwards;
 `;
 
-const TitleWrapper = styled.span`
-  color: black;
-  text-decoration: none;
-`;
-
-const IconButton = styled.button`
-  background: none;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  &:hover {
-    box-shadow: 0 0 2px 0 #eee;
-  }
-`;

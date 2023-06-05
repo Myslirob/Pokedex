@@ -1,42 +1,52 @@
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faGrip } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faCamera, faGrip } from '@fortawesome/free-solid-svg-icons';
 import { useQuery } from '@apollo/client';
 import { useAppContext } from 'src/appContext';
 import { useDebounce } from 'usehooks-ts';
 import { useEffect, useState } from 'react';
 import { GET_POKEMON_TYPES } from 'src/api/queries';
+import { useImageRecognizer } from 'components/index/pokemonRecognizer';
+
+import { GroupButton } from '../../elements/input/button/groupButton';
+import { IconButton } from '../../elements/input/button/iconButton';
+import { Search } from '../../elements/input/search';
+import { Select } from '../../elements/input/select';
 
 export const Filter = () => {
     const { setFilter, filter, setView } = useAppContext();
     const { data } = useQuery(GET_POKEMON_TYPES);
-
+    const { show, Component } = useImageRecognizer();
     return (
-        <Nav>
-            <CenterDiv>
-                <ButtonGroupWrapper>
-                    <ButtonGroup onClick={() => setFilter({ isFavorite: false })} selected={!filter.isFavorite}>All</ButtonGroup>
-                    <ButtonGroup onClick={() => setFilter({ isFavorite: true })} selected={filter.isFavorite}>Favorites</ButtonGroup>
-                </ButtonGroupWrapper>
-            </CenterDiv>
-            <CenterDiv>
-                { data !== undefined && (
-                    <FilterGroupWrapper>
-                        <Search />
-                        <StyledSelect onChange={(e) => setFilter({ ...filter, type: e.target.value })}>
-                            <option value="">All</option>
-                            {data.pokemonTypes.map((type) => <option key={type} value={type}>{type}</option>)}
-                        </StyledSelect>
-                        <IconButton onClick={() => setView('list')}><FontAwesomeIcon icon={faBars} size="lg" /></IconButton>
-                        <IconButton onClick={() => setView('grid')}><FontAwesomeIcon icon={faGrip} size="lg" /></IconButton>
-                    </FilterGroupWrapper>
-                )}
-            </CenterDiv>
-        </Nav>
+        <>
+            {Component}
+            <Nav>
+                <CenterDiv>
+                    <ButtonGroupContainer>
+                        <GroupButton color={filter.isFavorite ? 'white' : 'green'} onClick={() => setFilter({ isFavorite: false })}>All</GroupButton>
+                        <GroupButton color={filter.isFavorite ? 'green' : 'white'} onClick={() => setFilter({ isFavorite: true })}>Favorites</GroupButton>
+                    </ButtonGroupContainer>
+                </CenterDiv>
+                <CenterDiv>
+                    { data !== undefined && (
+                        <FilterGroupContainer>
+                            <IconButton onClick={show}><FontAwesomeIcon icon={faCamera} size="lg" /></IconButton>
+                            <SearchComponent />
+                            <Select onChange={(e) => setFilter({ ...filter, type: e.target.value })}>
+                                <option value="">All</option>
+                                {data.pokemonTypes.map((type) => <option key={type} value={type}>{type}</option>)}
+                            </Select>
+                            <IconButton onClick={() => setView('list')}><FontAwesomeIcon icon={faBars} size="lg" /></IconButton>
+                            <IconButton onClick={() => setView('grid')}><FontAwesomeIcon icon={faGrip} size="lg" /></IconButton>
+                        </FilterGroupContainer>
+                    )}
+                </CenterDiv>
+            </Nav>
+        </>
     );
 };
 
-const Search = () => {
+const SearchComponent = () => {
     const { setFilter, filter } = useAppContext();
     const [value, setValue] = useState<string>('');
     const search = useDebounce<string>(value, 500);
@@ -46,7 +56,7 @@ const Search = () => {
     }, [search, setFilter]);
 
     return (
-        <SearchInput onChange={(e) => setValue(e.target.value)} type="text" />
+        <Search onChange={(e) => setValue(e.target.value)} type="text" />
     );
 };
 
@@ -63,23 +73,7 @@ const CenterDiv = styled.div`
   padding: 1rem;
 `;
 
-const ButtonGroup = styled.button<{ selected?: boolean; maxWidth?: number }>`
-  border: 1px solid green;
-  background-color: ${(props) => props.selected === true ? 'green' : 'white'};
-  color: ${(props) => props.selected === true ? 'white' : 'green'};
-  padding: 1rem;
-  text-align: center;
-  &:first-child {
-    border-radius: 2rem 0 0 2rem;
-  }
-  &:last-child {
-    border-radius: 0 2rem 2rem 0;
-  }
-  max-width: ${(props) => props.maxWidth ? props.maxWidth + 'px' : 'inherit'};
-  width: 100%;
-`;
-
-const ButtonGroupWrapper = styled.div`
+const ButtonGroupContainer = styled.div`
   width: 100%;
   max-width: 500px;
   display: flex;
@@ -87,37 +81,10 @@ const ButtonGroupWrapper = styled.div`
   flex-grow: 1;
 `;
 
-const FilterGroupWrapper = styled.div`
+const FilterGroupContainer = styled.div`
   width: 100%;
   max-width: 500px;
   display: flex;
   gap: 10px;
 `;
 
-const SearchInput = styled.input`
-  box-shadow: none;
-  border: solid 1px rgba(0, 0, 0, 0.23);
-  height: 1.4375em;
-  width: 100%;
-  padding: 16.5px 14px;
-  font-weight: 400;
-  font-size: 1rem;
-  line-height: 1.4375em;
-  cursor: text;
-  border-radius: 6px;
-`;
-
-const StyledSelect = styled.select`
-  padding: 10px;
-  border-radius: 6px;
-  background-color: white;
-`;
-
-const IconButton = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-  &:hover {
-    box-shadow: 0px 0px 2px 0px #eee;
-  }
-`;

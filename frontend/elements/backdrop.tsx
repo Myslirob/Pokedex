@@ -2,14 +2,14 @@ import styled, { css, keyframes } from 'styled-components';
 
 type Props = {
     onClick: () => void;
-    show: boolean;
+    show?: boolean;
 };
 
 export const Backdrop = ({ show, onClick }: Props) => {
     return (
         <StyledBackdrop
             onClick={onClick}
-            show={show}
+            show={show ?? true}
         />
     );
 };
