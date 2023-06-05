@@ -26,7 +26,7 @@ const client = new ApolloClient({
             },
         },
     }),
-    uri: 'http://192.168.0.46:4000/graphql',
+    uri: 'http://localhost:4000/graphql',
 });
 
 export const ApiProvider = ({ children }: Props) => {
