@@ -10,7 +10,7 @@ export default function Home() {
     useDocumentTitle('Pokedex');
     const { filter } = useAppContext();
     const query = {
-        limit: 20,
+        limit: 40,
         offset: 0,
         ...(filter.name ? { search: filter.name } : {}),
         filter: {
